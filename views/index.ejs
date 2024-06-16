@@ -4,16 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>File Uploader</title>
+
+    <link href="/banners/css/main.css" type="text/css" rel="stylesheet">
 </head>
 <body>
-    <h1>Uploaded Images</h1>
+  <div style="text-align: center;">
+    <h1 class="pageTitle">Banners</h1></div>
     <ul>
         <% files.forEach(file => { %>
-            <li>
-                <img src="/banners/uploads/<%= file.filename %>" alt="<%= file.name %>" style="max-width: 200px;">
+        <div class="innerPost">    
+        <li>
+                <img src="/banners/uploads/<%= file.filename %>" alt="<%= file.name %>" style="max-width: 468px;border: 1px solid #82cece">
                 <p>Original Name: <%= file.name %></p>
                 <p>Upload Date: <%= new Date(file.date).toLocaleString() %></p>
             </li>
+        </div>
         <% }) %>
     </ul>
     <a href="/banners/upload">Upload a new image</a>

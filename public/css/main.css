@@ -1,0 +1,42 @@
+body {
+  color: #acacac;
+  background: #0d1a1d;
+  font-family: arial;
+  font-size: 11pt;
+  margin: 0px;
+  background-image: linear-gradient(to bottom,#182f3f 0, transparent 260px);
+}
+
+.pageTitle {
+  font-family: tahoma;
+  color: #AF0A0F;
+  font-size: 20pt;
+  display: inline;
+  letter-spacing: -2px;
+}
+
+a {
+  color: #fffab2;
+}
+
+a:hover {
+  color: #d00;
+}
+
+p {
+  margin:0;
+}
+
+ul {
+  list-style: none;
+}
+
+.innerPost {
+  display: table;
+  max-width: 100%;
+  background: #182f3f;
+  border: 1px solid #82cece;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 5px;
+}
