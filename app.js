@@ -3,6 +3,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const sizeOf = require('image-size');
+const auth = require('basic-auth');
 
 const app = express();
 const PORT = 3000;
@@ -26,12 +27,25 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+// Basic authentication middleware
+const adminAuth = (req, res, next) => {
+  const user = auth(req);
+
+  if (user && user.name === 'admin' && user.pass === 'password') { 
+    return next();
+  } else {
+    res.set('WWW-Authenticate', 'Basic realm="Admin Area"');
+    return res.status(401).send('Authentication required.');
+  }
+};
+
 // Helper function to save metadata
-function saveMetadata(filename, originalname) {
+function saveMetadata(filename, originalname, link) {
   const metadataFile = 'public/uploads/metadata.json';
   const metadata = {
     filename: filename,
     name: originalname,
+    link: link,
     date: new Date().toISOString()
   };
 
@@ -99,13 +113,62 @@ app.get('/banners/upload', (req, res) => {
 
 app.post('/banners/upload', upload.single('image'), checkImageDimensions, (req, res) => {
   if (req.file) {
-    saveMetadata(req.file.filename, req.file.originalname);
+    const link = req.body.link;
+    saveMetadata(req.file.filename, req.file.originalname, link);
   }
   res.redirect('/banners');
 });
 
 app.get('/banners/invalid-dimensions', (req, res) => {
   res.render('invalid-dimensions');
+});
+
+app.get('/banners/admin', adminAuth, (req, res) => {
+  fs.readFile('public/uploads/metadata.json', 'utf8', (err, data) => {
+    if (err) {
+      console.error(err);
+      res.send('Error reading metadata');
+    } else {
+      const files = JSON.parse(data);
+      res.render('admin', { files: files });
+    }
+  });
+});
+
+app.post('/banners/delete/:filename', adminAuth, (req, res) => {
+  const filename = req.params.filename;
+
+  // Read metadata
+  fs.readFile('public/uploads/metadata.json', 'utf8', (err, data) => {
+    if (err) {
+      console.error(err);
+      res.send('Error reading metadata');
+      return;
+    }
+
+    let files = JSON.parse(data);
+    files = files.filter(file => file.filename !== filename);
+
+    // Write updated metadata
+    fs.writeFile('public/uploads/metadata.json', JSON.stringify(files, null, 2), (err) => {
+      if (err) {
+        console.error('Error writing metadata file', err);
+        res.send('Error updating metadata');
+        return;
+      }
+
+      // Delete the image file
+      fs.unlink(path.join('public/uploads', filename), (err) => {
+        if (err) {
+          console.error('Error deleting file', err);
+          res.send('Error deleting file');
+          return;
+        }
+
+        res.redirect('/banners/admin');
+      });
+    });
+  });
 });
 
 // Start the server

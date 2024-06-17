@@ -3,7 +3,7 @@ body {
   background: #0d1a1d;
   font-family: arial;
   font-size: 11pt;
-  margin: 0px;
+  margin: 15px;
   background-image: linear-gradient(to bottom,#182f3f 0, transparent 260px);
 }
 
@@ -31,12 +31,22 @@ ul {
   list-style: none;
 }
 
+.posts-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#bannerImage {
+  border: 1px solid #82cece;
+}
+
 .innerPost {
-  display: table;
-  max-width: 100%;
   background: #182f3f;
   border: 1px solid #82cece;
   border-radius: 5px;
   padding: 5px;
   margin: 5px;
+  width: 468px;
+  text-align: left; 
 }

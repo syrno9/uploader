@@ -9,18 +9,28 @@
 </head>
 <body>
   <div style="text-align: center;">
-    <h1 class="pageTitle">Banners</h1></div>
-    <ul>
-        <% files.forEach(file => { %>
-        <div class="innerPost">    
-        <li>
-                <img src="/banners/uploads/<%= file.filename %>" alt="<%= file.name %>" style="max-width: 468px;border: 1px solid #82cece">
-                <p>Original Name: <%= file.name %></p>
-                <p>Upload Date: <%= new Date(file.date).toLocaleString() %></p>
-            </li>
-        </div>
-        <% }) %>
-    </ul>
-    <a href="/banners/upload">Upload a new image</a>
+  <header>
+    <img id="bannerImage" src="/randomBanner.js" width=300 height=100 />
+  </header>
+    <h1 class="pageTitle">Banner advertisements</h1>
+  </div>
+  <div style="text-align: center; margin: 5px; font-weight: bold;">
+  [<a href="/banners/upload">Upload your own banner</a>]
+  </div>
+  <div style="text-align: center; margin: 5px;">
+    [<a href="/">Home</a>]    <span style="margin-left: 20px;">[<a href="/banners/admin">Admin Panel</a>]</span>
+  </div>
+  <div class="posts-container">
+    <% files.forEach(file => { %>
+      <div class="innerPost">
+        <a href="<%= file.link %>" target="_blank">
+          <img src="/banners/uploads/<%= file.filename %>" alt="<%= file.name %>" style="max-width: 468px;border: 1px solid #82cece">
+        </a>
+        <p>File Name: <%= file.name %></p>
+        <p>Upload Date: <%= new Date(file.date).toLocaleString() %></p>
+        <p>Link: <a href="<%= file.link %>" target="_blank"><%= file.link %></a></p>
+      </div>
+    <% }) %>
+  </div>
 </body>
 </html>

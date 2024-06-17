@@ -6,11 +6,13 @@
     <title>Upload Image</title>
 </head>
 <body>
-    <h1>Upload a new image</h1>
-    <form action="/banners/upload" method="post" enctype="multipart/form-data">
-        <input type="file" name="image" accept="image/*" required>
-        <button type="submit">Upload</button>
-    </form>
-    <a href="/banners">Back to list</a>
+  <h1>Upload a new image</h1>
+  <form action="/banners/upload" method="post" enctype="multipart/form-data">
+    <input type="file" name="image" accept="image/*" required>
+    <input type="url" name="link" placeholder="Enter URL" required>
+    <button type="submit">Upload</button>
+  </form>
+  <a href="/banners">Back to list</a>
+  <a href="/banners/admin" style="margin-left: 20px;">Admin Panel</a>
 </body>
 </html>

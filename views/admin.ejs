@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+</head>
+<body>
+    <h1>Admin Panel</h1>
+    <a href="/banners">Back to banners</a>
+    <% files.forEach(file => { %>
+    <div class="innerPost">
+        <img src="/banners/uploads/<%= file.filename %>" alt="<%= file.name %>" style="max-width: 468px; border: 1px solid #82cece">
+        <p>File Name: <%= file.name %></p>
+        <p>Upload Date: <%= new Date(file.date).toLocaleString() %></p>
+        <p>Link: <a href="<%= file.link %>" target="_blank"><%= file.link %></a></p>
+        <form action="/banners/delete/<%= file.filename %>" method="post" style="display: inline;">
+            <button type="submit">Delete</button>
+        </form>
+    </div>
+    <% }) %>
+</body>
+</html>
